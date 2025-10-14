@@ -28,9 +28,15 @@ void main() {
         switch (opcion) {
             case 1:
                 Zodiaco();
+                System.exit(0);
                 break;
             case 2:
-                System.out.println("Caballero: Aldebarán de Tauro 🐂");
+                if (MayorDeEdad()) {
+                    System.out.println("✅ La persona es mayor de edad (18 años o más).");
+                } else {
+                    System.out.println("❌ La persona es menor de edad.");
+                }
+                System.exit(0);
                 break;
             case 3:
                 System.out.println("Caballero: Saga de Géminis ♊");
@@ -72,7 +78,7 @@ public static void Zodiaco() {
 
     int mes, año, dia, año_actual, edad;
 
-    System.out.println("Escriba su año actual");
+    System.out.println("Escriba el año actual");
     año_actual = input.nextInt();
 
     if (año_actual < 0) {
@@ -165,4 +171,45 @@ public static void Zodiaco() {
     }
 
     input.close();
+}
+
+public static boolean MayorDeEdad() {
+    Scanner input = new Scanner(System.in);
+
+    int diaActual, mesActual, añoActual;
+    int diaNacimiento, mesNacimiento, añoNacimiento;
+
+
+    System.out.println("Ingrese la fecha actual:");
+    System.out.print("Día actual: ");
+    diaActual = input.nextInt();
+    System.out.print("Mes actual: ");
+    mesActual = input.nextInt();
+    System.out.print("Año actual: ");
+    añoActual = input.nextInt();
+
+
+    System.out.println("\nIngrese su fecha de nacimiento:");
+    System.out.print("Día de nacimiento: ");
+    diaNacimiento = input.nextInt();
+    System.out.print("Mes de nacimiento: ");
+    mesNacimiento = input.nextInt();
+    System.out.print("Año de nacimiento: ");
+    añoNacimiento = input.nextInt();
+
+
+    int edad = añoActual - añoNacimiento;
+
+
+    if (mesActual < mesNacimiento ||
+            (mesActual == mesNacimiento && diaActual < diaNacimiento)) {
+        edad--;
+    }
+
+
+    System.out.println("\nSu edad actual es: " + edad + " años.");
+
+    input.close();
+
+    return edad >= 18;
 }
