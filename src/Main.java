@@ -68,9 +68,11 @@ void main() {
                 break;
             case 10:
                 System.out.println("Saliendo del programa");
+                System.exit(0);
                 break;
             default:
                 System.out.println("Opción inválida. Intente de nuevo.");
+                break;
         }
 
         System.out.println(); // Espacio entre iteraciones
