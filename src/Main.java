@@ -1,10 +1,48 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Random;
+
+public static String[] morse = {
+        ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..",
+        ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-",
+        ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",
+        "-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----."
+};
+
+public static char[] letras = {
+        'A','B','C','D','E','F','G','H','I','J',
+        'K','L','M','N','O','P','Q','R','S','T',
+        'U','V','W','X','Y','Z',
+        '0','1','2','3','4','5','6','7','8','9'
+};
+
+static class Caballero {
+    String nombre;
+    String constelacion;
+    String armadura;
+    int cosmos;
+
+    Caballero(String nombre, String constelacion, String armadura, int cosmos) {
+        this.nombre = nombre;
+        this.constelacion = constelacion;
+        this.armadura = armadura;
+        this.cosmos = cosmos;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre: " + nombre + " | Constelación: " + constelacion +
+                " | Armadura: " + armadura + " | Cosmos: " + cosmos;
+    }
+}
 
 void main() {
+
     Scanner input = new Scanner(System.in);
     int opcion;
+    Scanner scanner = new Scanner(System.in);
 
     do {
         System.out.println("==================================");
@@ -62,23 +100,32 @@ void main() {
                 break;
             case 5:
                 System.out.print("Ingrese un número: ");
-                int numero = input.nextInt();
+                int numeroc = input.nextInt();
 
-                if (Capicua(numero)) {
-                    System.out.println("✅ " + numero + " es un número capicúa.");
+                if (Capicua(numeroc)) {
+                    System.out.println("✅ " + numeroc + " es un número capicúa.");
+                    System.exit(0);
                 } else {
-                    System.out.println("❌ " + numero + " no es un número capicúa.");
+                    System.out.println("❌ " + numeroc + " no es un número capicúa.");
+                    System.exit(0);
                 }
-                System.exit(0);
                 break;
             case 6:
-                System.out.println("Caballero: Shaka de Virgo 🌾");
+                System.out.print("Ingrese el código Morse (use '/' para separar palabras): ");
+                scanner.nextLine();
+                String morseInput = scanner.nextLine();
+                morseATexto(morseInput);
+                System.exit(0);
                 break;
             case 7:
-                System.out.println("Caballero: Dohko de Libra ⚖️");
+                System.out.print("Ingrese el texto a convertir en código Morse: ");
+                scanner.nextLine();
+                String textoMorse = scanner.nextLine();
+                textoAMorse(textoMorse);
+                System.exit(0);
                 break;
             case 8:
-                System.out.println("Caballero: Milo de Escorpio 🦂");
+                gestorCaballeros();
                 break;
             case 9:
                 break;
@@ -273,15 +320,189 @@ public static boolean Palindromo(String palabra) {
     return true;
 }
 
-public static boolean Capicua(int numero) {
-    int original = numero;
+public static boolean Capicua(int numeroc) {
+    int original = numeroc;
     int inverso = 0;
 
-    while (numero > 0) {
-        int digito = numero % 10;
+    while (numeroc > 0) {
+        int digito = numeroc % 10;
         inverso = inverso * 10 + digito;
-        numero /= 10;
+        numeroc /= 10;
     }
 
     return original == inverso;
+}
+
+
+public static void morseATexto(String morseInput) {
+    String[] palabras = morseInput.trim().split(" / ");
+    StringBuilder texto = new StringBuilder();
+
+    for (String palabra : palabras) {
+        String[] simbolos = palabra.split(" ");
+        for (String simbolo : simbolos) {
+            boolean encontrado = false;
+            for (int i = 0; i < morse.length; i++) {
+                if (simbolo.equals(morse[i])) {
+                    texto.append(letras[i]);
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (!encontrado) {
+                texto.append("?");
+            }
+        }
+        texto.append(" "); //
+    }
+
+    System.out.println("Texto decodificado: " + texto.toString().trim());
+}
+
+public static void textoAMorse(String texto) {
+    texto = texto.toUpperCase();
+    StringBuilder resultado = new StringBuilder();
+
+    for (int i = 0; i < texto.length(); i++) {
+        char c = texto.charAt(i);
+
+        if (c == ' ') {
+            resultado.append(" / ");
+            continue;
+        }
+
+        boolean encontrado = false;
+        for (int j = 0; j < letras.length; j++) {
+            if (c == letras[j]) {
+                resultado.append(morse[j]).append(" ");
+                encontrado = true;
+                break;
+            }
+        }
+
+        if (!encontrado) {
+            resultado.append("? ");
+        }
+    }
+
+    System.out.println("Texto en Morse: " + resultado.toString());
+}
+
+static void gestorCaballeros() {
+    Scanner sc = new Scanner(System.in);
+    List<Caballero> caballeros = new ArrayList<>();
+    Random random = new Random();
+    int opcion;
+
+    do {
+        System.out.println("\n=== GESTOR DE CABALLEROS DEL ZODIACO ===");
+        System.out.println("1. Crear Caballero");
+        System.out.println("2. Mostrar Caballeros");
+        System.out.println("3. Eliminar Caballero");
+        System.out.println("4. Batalla entre Caballeros");
+        System.out.println("5. Volver al menú principal");
+        System.out.print("Elija una opción: ");
+        opcion = sc.nextInt();
+        sc.nextLine();
+
+        switch (opcion) {
+            case 1:
+                System.out.print("Nombre del Caballero: ");
+                String nombre = sc.nextLine();
+
+                System.out.print("Constelación: ");
+                String constelacion = sc.nextLine();
+
+                String armadura;
+                do {
+                    System.out.print("Tipo de armadura (Oro, Plata, Bronce): ");
+                    armadura = sc.nextLine().toLowerCase();
+                } while (!armadura.equals("oro") && !armadura.equals("plata") && !armadura.equals("bronce"));
+
+                int cosmos = 100; // Valor máximo de cosmos
+
+                caballeros.add(new Caballero(nombre, constelacion, armadura, cosmos));
+                System.out.println("✅ Caballero creado exitosamente.");
+                break;
+
+            case 2:
+                System.out.println("\n--- Lista de Caballeros ---");
+                if (caballeros.isEmpty()) {
+                    System.out.println("No hay caballeros registrados.");
+                } else {
+                    for (int i = 0; i < caballeros.size(); i++) {
+                        System.out.println((i + 1) + ". " + caballeros.get(i));
+                    }
+                }
+                break;
+
+            case 3:
+                System.out.print("Ingrese el número del caballero a eliminar: ");
+                int index = sc.nextInt() - 1;
+                if (index >= 0 && index < caballeros.size()) {
+                    System.out.println("Caballero eliminado: " + caballeros.remove(index).nombre);
+                } else {
+                    System.out.println("Número inválido.");
+                }
+                break;
+
+            case 4:
+                if (caballeros.size() < 2) {
+                    System.out.println("Debe haber al menos dos caballeros para pelear.");
+                    break;
+                }
+
+                System.out.println("Seleccione el primer caballero:");
+                for (int i = 0; i < caballeros.size(); i++) {
+                    System.out.println((i + 1) + ". " + caballeros.get(i).nombre);
+                }
+                int idx1 = sc.nextInt() - 1;
+
+                System.out.println("Seleccione el segundo caballero:");
+                for (int i = 0; i < caballeros.size(); i++) {
+                    if (i != idx1)
+                        System.out.println((i + 1) + ". " + caballeros.get(i).nombre);
+                }
+                int idx2 = sc.nextInt() - 1;
+
+                Caballero c1 = caballeros.get(idx1);
+                Caballero c2 = caballeros.get(idx2);
+
+                System.out.println("\n🔥 ¡Comienza la batalla entre " + c1.nombre + " y " + c2.nombre + "! 🔥");
+
+                while (c1.cosmos > 0 && c2.cosmos > 0) {
+                    int daño1 = random.nextInt(11); // daño de 0 a 10
+                    int daño2 = random.nextInt(11);
+
+                    c2.cosmos -= daño1;
+                    c1.cosmos -= daño2;
+
+                    System.out.println(c1.nombre + " inflige " + daño1 + " de daño. Cosmos de " + c2.nombre + ": " + Math.max(c2.cosmos, 0));
+                    System.out.println(c2.nombre + " inflige " + daño2 + " de daño. Cosmos de " + c1.nombre + ": " + Math.max(c1.cosmos, 0));
+                    System.out.println("----------------------------------------");
+                }
+
+                if (c1.cosmos <= 0 && c2.cosmos <= 0) {
+                    System.out.println("💥 ¡Ambos cayeron al mismo tiempo! Empate.");
+                } else if (c1.cosmos <= 0) {
+                    System.out.println("🏆 ¡" + c2.nombre + " gana la batalla!");
+                } else {
+                    System.out.println("🏆 ¡" + c1.nombre + " gana la batalla!");
+                }
+
+                // Reiniciar cosmos después de la batalla
+                c1.cosmos = 100;
+                c2.cosmos = 100;
+                break;
+
+            case 5:
+                System.out.println("Regresando al menú principal...");
+                break;
+
+            default:
+                System.out.println("Opción inválida.");
+                break;
+        }
+
+    } while (opcion != 5);
 }
