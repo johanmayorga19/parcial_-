@@ -39,7 +39,15 @@ void main() {
                 System.exit(0);
                 break;
             case 3:
-                System.out.println("Caballero: Saga de Géminis ♊");
+                System.out.print("Ingrese un número: ");
+                int numero = input.nextInt();
+
+                if (NumeroPerfecto(numero)) {
+                    System.out.println(numero + " es un número perfecto ✅");
+                } else {
+                    System.out.println(numero + " no es un número perfecto ❌");
+                }
+                System.exit(0);
                 break;
             case 4:
                 System.out.println("Caballero: Máscara de Muerte de Cáncer ♋");
@@ -59,10 +67,10 @@ void main() {
             case 9:
                 break;
             case 10:
-                System.out.println("Saliendo del programa... 👋");
+                System.out.println("Saliendo del programa");
                 break;
             default:
-                System.out.println("❌ Opción inválida. Intente de nuevo.");
+                System.out.println("Opción inválida. Intente de nuevo.");
         }
 
         System.out.println(); // Espacio entre iteraciones
@@ -212,4 +220,20 @@ public static boolean MayorDeEdad() {
     input.close();
 
     return edad >= 18;
+}
+
+public static boolean NumeroPerfecto(int numero) {
+    if (numero <= 0) {
+        return false;
+    }
+
+    int suma = 0;
+
+    for (int i = 1; i <= numero / 2; i++) {
+        if (numero % i == 0) { // Si es divisor
+            suma += i;
+        }
+    }
+
+    return suma == numero;
 }
