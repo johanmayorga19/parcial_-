@@ -50,10 +50,26 @@ void main() {
                 System.exit(0);
                 break;
             case 4:
-                System.out.println("Caballero: Máscara de Muerte de Cáncer ♋");
+                System.out.print("Ingrese una palabra: ");
+                String palabra = input.nextLine();
+
+                if (Palindromo(palabra)) {
+                    System.out.println("✅ '" + palabra + "' es un palíndromo.");
+                } else {
+                    System.out.println("❌ '" + palabra + "' no es un palíndromo.");
+                }
+                System.exit(0);
                 break;
             case 5:
-                System.out.println("Caballero: Aioria de Leo 🦁");
+                System.out.print("Ingrese un número: ");
+                int numero = input.nextInt();
+
+                if (Capicua(numero)) {
+                    System.out.println("✅ " + numero + " es un número capicúa.");
+                } else {
+                    System.out.println("❌ " + numero + " no es un número capicúa.");
+                }
+                System.exit(0);
                 break;
             case 6:
                 System.out.println("Caballero: Shaka de Virgo 🌾");
@@ -75,8 +91,8 @@ void main() {
                 break;
         }
 
-        System.out.println(); // Espacio entre iteraciones
-    } while (opcion != 9); // Se repite hasta que elija salir
+        System.out.println();
+    } while (opcion != 9);
 
     input.close();
 }
@@ -238,4 +254,34 @@ public static boolean NumeroPerfecto(int numero) {
     }
 
     return suma == numero;
+}
+
+public static boolean Palindromo(String palabra) {
+    palabra = palabra.toLowerCase().replace(" ", "");
+
+    int izquierda = 0;
+    int derecha = palabra.length() - 1;
+
+    while (izquierda < derecha) {
+        if (palabra.charAt(izquierda) != palabra.charAt(derecha)) {
+            return false;
+        }
+        izquierda++;
+        derecha--;
+    }
+
+    return true;
+}
+
+public static boolean Capicua(int numero) {
+    int original = numero;
+    int inverso = 0;
+
+    while (numero > 0) {
+        int digito = numero % 10;
+        inverso = inverso * 10 + digito;
+        numero /= 10;
+    }
+
+    return original == inverso;
 }
