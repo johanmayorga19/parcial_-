@@ -128,6 +128,8 @@ void main() {
                 gestorCaballeros();
                 break;
             case 9:
+                juegoDeDados();
+                System.exit(0);
                 break;
             case 10:
                 System.out.println("Saliendo del programa");
@@ -505,4 +507,52 @@ static void gestorCaballeros() {
         }
 
     } while (opcion != 5);
+}
+
+public static void juegoDeDados() {
+    Scanner input = new Scanner(System.in);
+    Random random = new Random();
+
+    System.out.println("🎲 Bienvenido al juego de Dados de Combate 🎲");
+    System.out.print("Ingrese el nombre del Jugador 1: ");
+    String jugador1 = input.nextLine();
+
+    System.out.print("Ingrese el nombre del Jugador 2: ");
+    String jugador2 = input.nextLine();
+
+    int vidas1 = 3;
+    int vidas2 = 3;
+    int ronda = 1;
+
+    while (vidas1 > 0 && vidas2 > 0) {
+        System.out.println("\n--- RONDA " + ronda + " ---");
+        System.out.println(jugador1 + " lanza el dado...");
+        int dado1 = random.nextInt(6) + 1;
+
+        System.out.println(jugador2 + " lanza el dado...");
+        int dado2 = random.nextInt(6) + 1;
+
+        System.out.println(jugador1 + " sacó: " + dado1);
+        System.out.println(jugador2 + " sacó: " + dado2);
+
+        if (dado1 > dado2) {
+            vidas2--;
+            System.out.println(jugador1 + " gana la ronda. " + jugador2 + " pierde una vida.");
+        } else if (dado2 > dado1) {
+            vidas1--;
+            System.out.println(jugador2 + " gana la ronda. " + jugador1 + " pierde una vida.");
+        } else {
+            System.out.println("Empate. Nadie pierde vida.");
+        }
+
+        System.out.println("Vidas restantes → " + jugador1 + ": " + vidas1 + " | " + jugador2 + ": " + vidas2);
+        ronda++;
+    }
+
+    System.out.println("\n🎯 ¡Combate finalizado!");
+    if (vidas1 > 0) {
+        System.out.println("🏆 " + jugador1 + " es el ganador con " + vidas1 + " vida(s) restante(s).");
+    } else {
+        System.out.println("🏆 " + jugador2 + " es el ganador con " + vidas2 + " vida(s) restante(s).");
+    }
 }
